@@ -5,8 +5,6 @@ import { whatsappUrl } from "../../utils/whatsapp";
 import Logo from "../Logo/Logo";
 import "./Footer.css";
 
-const footerLinks = navLinks.filter((l) => ["#inicio", "#sobre", "#encomendas", "#contato"].includes(l.href));
-
 export default function Footer() {
   return (
     <footer className="footer">
@@ -20,7 +18,7 @@ export default function Footer() {
           <nav aria-label="Navegação do rodapé">
             <h3>NAVEGAÇÃO</h3>
             <ul>
-              {footerLinks.map((l) => (<li key={l.href}><a href={l.href}>{l.label}</a></li>))}
+              {navLinks.map((l) => (<li key={l.href}><a href={l.href}>{l.label}</a></li>))}
             </ul>
           </nav>
 

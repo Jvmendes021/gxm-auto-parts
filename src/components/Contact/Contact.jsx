@@ -26,7 +26,6 @@ export default function Contact() {
             </li>
           ))}
         </ul>
-        <a className="btn" href={whatsappUrl("Olá, GXM Auto Parts!")} target="_blank" rel="noopener noreferrer">FALAR PELO WHATSAPP</a>
       </div>
     </section>
   );

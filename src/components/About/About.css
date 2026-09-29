@@ -1,2 +1,9 @@
-.about{max-width:760px;margin-inline:auto}
-.about p{color:var(--muted);margin-top:1rem}
+.about{display:grid;grid-template-columns:1.4fr .8fr;gap:2.5rem;align-items:center}
+.about__lead{margin-top:1rem;font-size:1.2rem;color:var(--text);max-width:60ch}
+.about p{color:var(--muted)}
+.about p + p{margin-top:1rem;max-width:60ch}
+.about__info{list-style:none;padding:0;display:grid;gap:1rem}
+.about__info li{display:flex;align-items:center;gap:.9rem;padding:1.1rem 1.3rem;background:var(--white);border-left:4px solid var(--primary);border-radius:10px;box-shadow:0 8px 22px rgba(30,40,110,.1)}
+.about__info li:nth-child(2){border-left-color:var(--secondary)}
+.about__info svg{color:var(--primary);flex-shrink:0}
+@media (max-width:860px){.about{grid-template-columns:1fr;gap:1.5rem}}

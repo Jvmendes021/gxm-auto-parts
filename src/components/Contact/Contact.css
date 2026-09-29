@@ -1,0 +1,6 @@
+.contact__list{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;margin:1.5rem 0 2rem}
+.contact__item{display:flex;gap:.9rem;align-items:center;padding:1.1rem 1.2rem;border-radius:10px;background:var(--mist);text-decoration:none;transition:transform .2s,box-shadow .2s}
+.contact__item:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(30,40,110,.14)}
+.contact__item svg{color:var(--primary);flex-shrink:0}
+.contact__item span{overflow-wrap:anywhere;color:var(--muted)}
+.contact__item strong{color:var(--text)}

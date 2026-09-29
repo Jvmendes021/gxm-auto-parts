@@ -1,0 +1,7 @@
+.categories__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.2rem}
+.categories__card{padding:1.5rem;background:var(--mist);border-radius:10px;border-top:4px solid var(--primary);transition:transform .2s,box-shadow .2s}
+.categories__card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(30,40,110,.15)}
+.categories__card:nth-child(even){border-top-color:var(--secondary)}
+.categories__card svg{color:var(--primary);margin-bottom:.6rem}
+.categories__card h3{font-size:1.15rem;margin-bottom:.4rem}
+.categories__card p{color:var(--muted);font-size:1rem}

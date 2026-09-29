@@ -1,0 +1,7 @@
+.footer{padding:2.5rem 0 1.5rem;background:var(--night);color:#c9d0f5}
+.footer__top{display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between}
+.footer__brand{font:700 1.3rem var(--font-h);color:var(--white)}
+.footer ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:.6rem 1.4rem;max-width:520px}
+.footer a{text-decoration:none;opacity:.85}
+.footer a:hover{opacity:1;text-decoration:underline}
+.footer__copy{margin-top:2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.12);font-size:.9rem}

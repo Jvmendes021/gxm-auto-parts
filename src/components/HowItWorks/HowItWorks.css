@@ -1,0 +1,5 @@
+.how__steps{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.6rem}
+.how__step{padding-top:1rem;border-top:3px solid var(--secondary)}
+.how__num{display:block;margin-bottom:.4rem;font:700 1.8rem var(--font-h);color:#9fb4ff}
+.how__step h3{margin-bottom:.4rem;font-size:1.1rem}
+.how__step p{color:#d5dcff}

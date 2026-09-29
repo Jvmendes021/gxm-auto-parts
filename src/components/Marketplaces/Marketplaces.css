@@ -1,0 +1,6 @@
+.market__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:1.5rem}
+.market__card{display:grid;gap:1rem;justify-items:start;padding:1.8rem;border:1.5px solid #d9def2;border-radius:12px;transition:box-shadow .2s,border-color .2s}
+.market__card:hover{border-color:var(--primary);box-shadow:0 12px 28px rgba(30,40,110,.14)}
+.market__card p{color:var(--muted)}
+.market__btn--ml{background:var(--ml);color:var(--ml-text)}
+.market__btn--shopee{background:var(--shopee);color:var(--white)}

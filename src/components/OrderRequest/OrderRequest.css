@@ -15,3 +15,5 @@
 .order__status--err{background:#fdeceb;color:#b3261e}
 @media (max-width:900px){.order{grid-template-columns:1fr;gap:1.5rem}}
 @media (max-width:560px){.order__form{grid-template-columns:1fr;padding:1.2rem;border-radius:12px}}
+.order__status p{margin:0}
+.order__fallback{display:inline-block;margin-top:.6rem;font-weight:700;color:#b3261e;text-decoration:underline;text-underline-offset:3px}

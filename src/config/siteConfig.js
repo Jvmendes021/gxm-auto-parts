@@ -9,7 +9,8 @@ export const siteConfig = {
   mercadoLivre: "https://www.mercadolivre.com.br/pagina/gxmautoparts",
   shopee: "https://shopee.com.br/shop/412688316",
   instagram: "", // opcional: link completo do perfil
-  // Rota do próprio site (api/quote.js) que envia o formulário por e-mail
+  // Rota do próprio site (api/quote.js) que envia o formulário por e-mail, sem senha no site.
+  // Só funciona publicado na Vercel (ou com "npx vercel dev" no computador).
   formEndpoint: "/api/quote",
   colors: { primary: "#2f6bff", secondary: "#7a4dff" },
 };

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { siteConfig } from "../../config/siteConfig";
 import { maskPhone, nationalNumber } from "../../utils/phone";
-import { buildQuotePayload } from "../../utils/quoteEmail";
+import { whatsappUrl } from "../../utils/whatsapp";
 import "./OrderRequest.css";
 
 const fields = [
@@ -24,6 +24,10 @@ function validate(v) {
   if (!e.ano && !/^(19|20)\d{2}$/.test(v.ano.trim())) e.ano = "Use 4 dígitos. Ex.: 2015";
   return e;
 }
+
+// Plano B: se o envio falhar, o cliente ainda consegue mandar o pedido pelo WhatsApp da loja
+const fallbackMessage = (v) =>
+  `Olá, GXM Auto Parts! Quero solicitar peças.\n\nNome: ${v.nome}\nPlaca: ${v.placa}\nWhatsApp: ${v.whatsapp}\nModelo: ${v.modelo}\nAno: ${v.ano}\n\nPeças:\n${v.pecas}`;
 
 export default function OrderRequest() {
   const [values, setValues] = useState(empty);
@@ -48,11 +52,14 @@ export default function OrderRequest() {
     try {
       const res = await fetch(siteConfig.formEndpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(buildQuotePayload(values, new FormData(e.target).get("_honey") || "")),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...values, _honey: new FormData(e.target).get("_honey") || "" }),
       });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok || String(data.success) === "false") throw new Error("send failed");
+      if (!res.ok || !data.success) {
+        console.error("Falha no envio:", res.status, data); // aparece no Console (F12)
+        throw new Error("send failed");
+      }
       setValues(empty);
       setStatus("success");
     } catch {
@@ -86,7 +93,10 @@ export default function OrderRequest() {
             <p className="order__status order__status--ok" role="status">Solicitação enviada com sucesso! Nossa equipe entrará em contato para verificar a disponibilidade das peças e enviar o orçamento.</p>
           )}
           {status === "error" && (
-            <p className="order__status order__status--err" role="alert">Não foi possível enviar a solicitação. Verifique sua conexão e tente novamente em instantes.</p>
+            <div className="order__status order__status--err" role="alert">
+              <p>Não foi possível enviar a solicitação. Tente novamente em instantes ou envie seu pedido pelo WhatsApp.</p>
+              <a className="order__fallback" href={whatsappUrl(fallbackMessage(values))} target="_blank" rel="noopener noreferrer">Enviar pedido pelo WhatsApp</a>
+            </div>
           )}
         </form>
       </div>

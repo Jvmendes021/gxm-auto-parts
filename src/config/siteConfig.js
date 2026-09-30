@@ -9,7 +9,7 @@ export const siteConfig = {
   mercadoLivre: "https://www.mercadolivre.com.br/pagina/gxmautoparts",
   shopee: "https://shopee.com.br/shop/412688316",
   instagram: "", // opcional: link completo do perfil
-  // Serviço que recebe o formulário e envia para o e-mail acima (sem senha no site)
-  formEndpoint: "https://formsubmit.co/ajax/gxmautoparts@gmail.com",
+  // Rota do próprio site (api/quote.js) que envia o formulário por e-mail
+  formEndpoint: "/api/quote",
   colors: { primary: "#2f6bff", secondary: "#7a4dff" },
 };

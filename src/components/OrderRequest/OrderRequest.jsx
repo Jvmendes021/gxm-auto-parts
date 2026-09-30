@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { siteConfig } from "../../config/siteConfig";
 import { maskPhone, nationalNumber } from "../../utils/phone";
 import { whatsappUrl } from "../../utils/whatsapp";
+import { buildQuoteMessage } from "../../utils/quoteMessage";
 import "./OrderRequest.css";
 
 const fields = [
@@ -25,46 +25,30 @@ function validate(v) {
   return e;
 }
 
-// Plano B: se o envio falhar, o cliente ainda consegue mandar o pedido pelo WhatsApp da loja
-const fallbackMessage = (v) =>
-  `Olá, GXM Auto Parts! Quero solicitar peças.\n\nNome: ${v.nome}\nPlaca: ${v.placa}\nWhatsApp: ${v.whatsapp}\nModelo: ${v.modelo}\nAno: ${v.ano}\n\nPeças:\n${v.pecas}`;
-
 export default function OrderRequest() {
   const [values, setValues] = useState(empty);
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState("idle"); // idle | sending | success | error
+  const [link, setLink] = useState(""); // link do WhatsApp gerado após o envio
 
   const onChange = (e) => {
     const { name, value } = e.target;
     const next = name === "placa" ? value.toUpperCase() : name === "whatsapp" ? maskPhone(value) : value;
     setValues((v) => ({ ...v, [name]: next }));
     setErrors((er) => ({ ...er, [name]: undefined }));
-    if (status !== "sending") setStatus("idle");
+    setLink("");
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
     const found = validate(values);
     setErrors(found);
     if (Object.keys(found).length) return;
 
-    setStatus("sending");
-    try {
-      const res = await fetch(siteConfig.formEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, _honey: new FormData(e.target).get("_honey") || "" }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data.success) {
-        console.error("Falha no envio:", res.status, data); // aparece no Console (F12)
-        throw new Error("send failed");
-      }
-      setValues(empty);
-      setStatus("success");
-    } catch {
-      setStatus("error");
-    }
+    const url = whatsappUrl(buildQuoteMessage(values));
+    setLink(url);
+    const win = window.open(url, "_blank");
+    if (win) win.opener = null;
+    else window.location.href = url; // pop-up bloqueado: abre na mesma aba
   };
 
   return (
@@ -85,18 +69,12 @@ export default function OrderRequest() {
               </label>
             );
           })}
-          <input className="order__hp" type="text" name="_honey" tabIndex={-1} autoComplete="off" aria-hidden="true" />
-          <button className="btn order__submit" type="submit" disabled={status === "sending"}>
-            {status === "sending" ? "ENVIANDO..." : "ENVIAR SOLICITAÇÃO"}
-          </button>
-          {status === "success" && (
-            <p className="order__status order__status--ok" role="status">Solicitação enviada com sucesso! Nossa equipe entrará em contato para verificar a disponibilidade das peças e enviar o orçamento.</p>
-          )}
-          {status === "error" && (
-            <div className="order__status order__status--err" role="alert">
-              <p>Não foi possível enviar a solicitação. Tente novamente em instantes ou envie seu pedido pelo WhatsApp.</p>
-              <a className="order__fallback" href={whatsappUrl(fallbackMessage(values))} target="_blank" rel="noopener noreferrer">Enviar pedido pelo WhatsApp</a>
-            </div>
+          <button className="btn order__submit" type="submit">ENVIAR SOLICITAÇÃO</button>
+          {link && (
+            <p className="order__status order__status--ok" role="status">
+              Abrimos o WhatsApp com a sua solicitação. É só tocar em enviar para concluir.{" "}
+              <a className="order__fallback" href={link} target="_blank" rel="noopener noreferrer">Não abriu? Clique aqui.</a>
+            </p>
           )}
         </form>
       </div>
